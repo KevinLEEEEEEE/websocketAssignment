@@ -1,0 +1,57 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>websocket</title>
+        <style>
+            body {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            #main {
+                width: 400px;
+                height: 400px;
+                background-color: bisque;
+            }
+            button {
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="main">
+            <input type="text" id="answer">
+            <button id="send">send</button>
+            <button id="close">close</button>          
+        </div>
+    </body>
+    <script type="text/javascript">
+        const ws = new WebSocket("ws://127.0.0.1:8080");
+        
+        ws.onopen = () => {
+            console.log('Connection open ...');
+        };
+
+        ws.onmessage = (event) => {
+            console.log( "Received Message: " + event.data);
+        };
+
+        ws.onclose = () => {
+            console.log("Connection closed.");
+        };  
+
+        const send = () => {
+            const content = document.getElementById('answer').value;
+            ws.send(content)
+        };
+
+        const close = () => {
+            ws.close();
+        };
+
+        document.getElementById('send').addEventListener('click', send);
+        document.getElementById('close').addEventListener('click', close);
+    </script>
+</html>
